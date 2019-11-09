@@ -1,6 +1,6 @@
 import { QuestionItem, GetQuestionSettings, QuizElement } from "./types";
 import * as list from '../data/kanji.json';
-import { random, nth, without, shuffle } from 'lodash';
+import { random, nth, shuffle } from 'lodash';
 
 const SUGGESTIONS_TOTAL = 3;
 
@@ -11,8 +11,6 @@ export const getQuestion = (settings: GetQuestionSettings): QuestionItem | null 
   const relevantKanji = kanjiRange.filter(item => !settings.exclude.has(item.kanji));
 
   if (!relevantKanji.length) return null;
-
-  console.log('relevantKanji', relevantKanji);
 
   const questionItem = getRandomItem(relevantKanji);
   const suggestions = new Array(SUGGESTIONS_TOTAL).fill(null).reduce((group: QuizElement[]) => {

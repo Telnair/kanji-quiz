@@ -52,6 +52,19 @@ const useStyles = makeStyles(theme => ({
   title: {
     fontSize: 24,
     marginBottom: theme.spacing(5),
+  },
+  footerStats: {
+    display: 'flex',
+    justifyContent: 'center',
+    textAlign: 'center',
+    fontSize: 20,
+    alignItems: 'center',
+  },
+  incorrectAnswers: {
+    marginLeft: theme.spacing(0.5),
+    marginRight: theme.spacing(0.5),
+    fontWeight: 700,
+    color: '#f44336',
   }
 }));
 
@@ -73,8 +86,12 @@ export const Question: React.FC<QuestionProps> = ({ quizType, startFrom, upTo, a
 
   // @todo: game results
   if (!question) return (
-    // <GameResults />
-    null
+    <div className={classes.container}>
+      <header>
+        <h1 className={classes.title}>All quizes are done</h1>
+      </header>
+      <h2 className={classes.footerStats}>АЙ МАЛАДЭЦ!!! ВСЕГО <span className={classes.incorrectAnswers}>{incorrectAnswers.current.length}</span> НЕПРАВИЛЬНЫХ ОТВЕТОВ!</h2>
+    </div>
   );
 
   const { questionItem, suggestions } = question;
@@ -82,7 +99,7 @@ export const Question: React.FC<QuestionProps> = ({ quizType, startFrom, upTo, a
   return (
     <div className={classes.container}>
       <header>
-        <h1 className={classes.title}>Question {usedIds.current.length + 1} from {upTo - startFrom}</h1>
+        <h1 className={classes.title}>Quiz {usedIds.current.length + 1} from {upTo - startFrom}</h1>
       </header>
       <div className={classes.questionItem} style={quizType === QuizType.Kanji ? { fontFamily: 'Kosugi', fontSize: 120 } : { fontFamily: 'Roboto', fontSize: 24 }}>
         {questionItem[quizType === QuizType.Kanji ? 'kanji' : 'meaning']}
@@ -103,6 +120,9 @@ export const Question: React.FC<QuestionProps> = ({ quizType, startFrom, upTo, a
       ) : (
         <Button variant="contained" color="primary" onClick={() => setShowSuggestions(true)}>Show suggestions</Button>
       )}
+      <footer>
+        <p className={classes.footerStats}>Incorrect answers: <span className={classes.incorrectAnswers}>{incorrectAnswers.current.length}</span></p>
+      </footer>
     </div>
   );
 }

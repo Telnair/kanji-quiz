@@ -104,7 +104,11 @@ export const StartForm: React.FC<StartFormProps> = ({
           placeholder={getTotalItems().toString()}
           className={classes.textField}
           value={upTo || ''}
-          onChange={(e) => isFinite(+e.target.value) ? onSetUpTo(+e.target.value) : onSetUpTo(upTo)}
+          onChange={(e) => isFinite(+e.target.value)
+            ? onSetUpTo(+e.target.value > getTotalItems()
+              ? getTotalItems()
+              : +e.target.value)
+            : onSetUpTo(upTo)}
           margin="normal"
         />
       </FormGroup>
