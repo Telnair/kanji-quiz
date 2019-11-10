@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { QuizType, QuestionItem, QuizElement, IncorrectAnswer } from '../../utils/types';
 import { getQuestion } from '../../utils/utils';
 import { useStyles } from './style';
@@ -11,20 +11,30 @@ interface QuestionProps {
   upTo: number;
   autoSuggestions: boolean;
   onEndGame: () => void;
-}
+  trackTime: boolean;
+};
 
-export const Question: React.FC<QuestionProps> = ({ quizType, startFrom, upTo, autoSuggestions, onEndGame }) => {
+export const Question: React.FC<QuestionProps> = ({ quizType, startFrom, upTo, autoSuggestions, onEndGame, trackTime }) => {
   const incorrectAnswers = useRef<IncorrectAnswer[]>([]);
   const [ showSuggestions, setShowSuggestions ] = useState(autoSuggestions);
   const usedIds = useRef<string[]>([]);
   const [ question, setQuestion ] = useState<QuestionItem | null>(getQuestion({ quizType, startFrom, upTo, exclude: new Set(usedIds.current) }));
+  const timeStarted = useRef<number | null>(null);
+
+  useEffect(() => {
+    if (trackTime) {
+      timeStarted.current = Date.now();
+    }
+  }, []);
 
   const classes = useStyles();
 
   const makeAnswerHandler = (item: QuizElement) => () => {
     const nextUsedIds = [ ...usedIds.current, questionItem.kanji ];
+
     usedIds.current = nextUsedIds;
     setQuestion(getQuestion({ quizType, startFrom, upTo, exclude: new Set(nextUsedIds) }));
+
     if (item.kanji !== questionItem.kanji) incorrectAnswers.current.push([ questionItem, item ]);
     if (!autoSuggestions) setShowSuggestions(false);
   }
@@ -45,6 +55,7 @@ export const Question: React.FC<QuestionProps> = ({ quizType, startFrom, upTo, a
       onEndGame={onEndGame}
       incorrectAnswersStats={incorrectAnswersStats}
       totalQuizes={totalQuizes}
+      timeStarted={timeStarted.current}
     />
   );
 

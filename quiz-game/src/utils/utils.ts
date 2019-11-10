@@ -31,3 +31,9 @@ export const getQuestion = (settings: GetQuestionSettings): QuestionItem | null 
 };
 
 export const getTotalItems = () => list.data.length;
+
+export const msToMinutes = (ms: number) => {
+  var minutes = Math.floor(ms / 60000);
+  var seconds = ((ms % 60000) / 1000).toFixed(0);
+  return (+seconds === 60 ? (minutes+1) + ` minute${minutes === 1 ? '' : 's'} ` : minutes + ` minute${minutes === 1 ? '' : 's'} ` + seconds + ` second${+seconds === 1 ? '' : 's'} `);
+}

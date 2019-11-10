@@ -29,7 +29,7 @@ export const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
     flexWrap: 'wrap',
     padding: theme.spacing(1),
-    background: "#eaeaea",
+    background: "#eee",
     border: '1px solid #dadada',
     marginBottom: theme.spacing(1),
   },

@@ -22,6 +22,8 @@ interface StartFormProps {
   autoSuggestions: boolean;
   onToggleAutoSuggestions: () => void;
   onStartGame: () => void;
+  trackTime: boolean;
+  onToggleTrackTime: () => void;
 }
 
 export const StartForm: React.FC<StartFormProps> = ({
@@ -34,6 +36,8 @@ export const StartForm: React.FC<StartFormProps> = ({
   autoSuggestions,
   onToggleAutoSuggestions,
   onStartGame,
+  trackTime,
+  onToggleTrackTime,
 }) => {
   const classes = useStyles();
 
@@ -95,6 +99,19 @@ export const StartForm: React.FC<StartFormProps> = ({
             />
           }
           label="Auto Suggestions"
+        />
+      </FormGroup>
+      <FormGroup row className={classes.group}>
+        <FormControlLabel
+          control={
+            <Switch
+              checked={trackTime}
+              onChange={onToggleTrackTime}
+              value={!trackTime}
+              color="primary"
+            />
+          }
+          label="Track time"
         />
       </FormGroup>
       <Button
