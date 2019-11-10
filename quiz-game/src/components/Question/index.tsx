@@ -65,11 +65,37 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(0.5),
     fontWeight: 700,
     color: '#f44336',
+  },
+  incorrectAnswersContainer: {
+    display: 'flex',
+    marginTop: theme.spacing(2),
+    justifyContent: 'center',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  incorrectAnswerItem: {
+    flexBasis: '100%',
+    textAlign: 'center',
+    display: 'flex',
+    justifyContent: 'space-around',
+    flexWrap: 'nowrap',
+    marginBottom: theme.spacing(1),
+  },
+  incorrectAnswerItemTextBlock: {
+    display: 'flex',
+    fontSize: 18,
+    whiteSpace: 'nowrap',
+    marginRight: theme.spacing(0.5),
+    marginLeft: theme.spacing(0.5),
+  },
+  incorrectAnswerItemAccentText: {
+    fontWeight: 700,
+    marginLeft: theme.spacing(0.5),
   }
 }));
 
 export const Question: React.FC<QuestionProps> = ({ quizType, startFrom, upTo, autoSuggestions }) => {
-  const incorrectAnswers = useRef<Array<[ string, string ]>>([]);
+  const incorrectAnswers = useRef<Array<[ QuizElement, QuizElement ]>>([]);
   const [ showSuggestions, setShowSuggestions ] = useState(autoSuggestions);
   const usedIds = useRef<string[]>([]);
   const [ question, setQuestion ] = useState<QuestionItem | null>(getQuestion({ quizType, startFrom, upTo, exclude: new Set(usedIds.current) }));
@@ -80,9 +106,11 @@ export const Question: React.FC<QuestionProps> = ({ quizType, startFrom, upTo, a
     const nextUsedIds = [ ...usedIds.current, questionItem.kanji ];
     usedIds.current = nextUsedIds;
     setQuestion(getQuestion({ quizType, startFrom, upTo, exclude: new Set(nextUsedIds) }));
-    if (item.kanji !== questionItem.kanji) incorrectAnswers.current.push([ questionItem.kanji, item.kanji ]);
+    if (item.kanji !== questionItem.kanji) incorrectAnswers.current.push([ questionItem, item ]);
     if (!autoSuggestions) setShowSuggestions(false);
   }
+
+  const incorrectAnswersText = <p className={classes.footerStats}>Incorrect answers: <span className={classes.incorrectAnswers}>{incorrectAnswers.current.length}</span></p>
 
   // @todo: game results
   if (!question) return (
@@ -90,7 +118,27 @@ export const Question: React.FC<QuestionProps> = ({ quizType, startFrom, upTo, a
       <header>
         <h1 className={classes.title}>All quizes are done</h1>
       </header>
-      <h2 className={classes.footerStats}>АЙ МАЛАДЭЦ!!! ВСЕГО <span className={classes.incorrectAnswers}>{incorrectAnswers.current.length}</span> НЕПРАВИЛЬНЫХ ОТВЕТОВ!</h2>
+      {incorrectAnswersText}
+      {incorrectAnswers.current.length ? (
+        <div className={classes.incorrectAnswersContainer}>
+          {incorrectAnswers.current.map(answer => (
+            <div className={classes.incorrectAnswerItem} key={answer[0].kanji}>
+              <div className={classes.incorrectAnswerItemTextBlock}>
+                Quiz:
+                <span className={classes.incorrectAnswerItemAccentText}>{quizType === QuizType.Kanji ? answer[0].kanji : answer[0].meaning}</span>
+              </div>
+              <div className={classes.incorrectAnswerItemTextBlock}>
+                You:
+                <span className={classes.incorrectAnswerItemAccentText}>{quizType === QuizType.Kanji ? answer[1].meaning : answer[1].kanji}</span>
+              </div>
+              <div className={classes.incorrectAnswerItemTextBlock}>
+                Correct:
+                <span className={classes.incorrectAnswerItemAccentText}>{quizType === QuizType.Kanji ? answer[0].meaning : answer[0].kanji}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : null}
     </div>
   );
 
@@ -121,7 +169,7 @@ export const Question: React.FC<QuestionProps> = ({ quizType, startFrom, upTo, a
         <Button variant="contained" color="primary" onClick={() => setShowSuggestions(true)}>Show suggestions</Button>
       )}
       <footer>
-        <p className={classes.footerStats}>Incorrect answers: <span className={classes.incorrectAnswers}>{incorrectAnswers.current.length}</span></p>
+        {incorrectAnswersText}
       </footer>
     </div>
   );
