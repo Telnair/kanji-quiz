@@ -12,12 +12,16 @@ export const QuizGame: React.FC = () => {
   const [ upTo, setUpTo ] = useState<RangeValue>(null);
   const [ autoSuggestions, setAutoSuggestions ] = useState(true);
 
+  const defaultStartFrom = 0;
+  const defaultUpTo = getTotalItems()
+
   const content = isGameStarted ? (
     <Question
       quizType={quizType}
-      startFrom={startFrom || 0}
-      upTo={upTo || getTotalItems()}
+      startFrom={startFrom || defaultStartFrom}
+      upTo={upTo || defaultUpTo}
       autoSuggestions={autoSuggestions}
+      onEndGame={() => setIsGameStarted(false)}
     />
   ) : (
     <StartForm

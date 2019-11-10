@@ -21,3 +21,5 @@ export interface GetQuestionSettings {
 }
 
 export type RangeValue = number | null;
+
+export type IncorrectAnswer = [ QuizElement, QuizElement ];

@@ -5,12 +5,12 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import FormGroup from '@material-ui/core/FormGroup';
 import TextField from '@material-ui/core/TextField';
-import { makeStyles } from '@material-ui/core/styles';
 import FormLabel from '@material-ui/core/FormLabel';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Radio from '@material-ui/core/Radio';
 import { getTotalItems } from '../../utils/utils';
 import { isFinite } from 'lodash';
+import { useStyles } from './style';
 
 interface StartFormProps {
   quizType: QuizType;
@@ -23,39 +23,6 @@ interface StartFormProps {
   onToggleAutoSuggestions: () => void;
   onStartGame: () => void;
 }
-
-const useStyles = makeStyles(theme => ({
-  container: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-  },
-  group: {
-    marginBottom: theme.spacing(3),
-    flexBasis: '100%',
-    justifyContent: 'center',
-  },
-  textField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
-    width: 200,
-  },
-  button: {
-    marginTop: theme.spacing(5),
-    width: 150,
-    height: 40,
-    justifySelf: 'center',
-  },
-  radioGroup: {
-    marginTop: theme.spacing(1),
-  },
-  radioLabel: {
-    display: 'flex',
-    flexBasis: '100%',
-    justifyContent: 'center',
-    paddingTop: theme.spacing(4),
-  },
-}));
 
 export const StartForm: React.FC<StartFormProps> = ({
   quizType,
@@ -71,6 +38,15 @@ export const StartForm: React.FC<StartFormProps> = ({
   const classes = useStyles();
 
   const isRangeValid = startFrom && upTo ? Boolean(startFrom < upTo) : (startFrom ? startFrom < getTotalItems() : true);
+
+  const totalItems = getTotalItems();
+
+  const totalItemsLimiter = (val: number) => val > totalItems ? totalItems : val
+
+  const makeNumberInputChangeHandler = (changeFn: (val: RangeValue) => void, current: RangeValue) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = Number(e.target.value);
+    isFinite(value) ? changeFn(totalItemsLimiter(value)) : changeFn(current);
+  }
 
   return (
     <div className={classes.container}>
@@ -95,20 +71,16 @@ export const StartForm: React.FC<StartFormProps> = ({
           className={classes.textField}
           value={startFrom || ''}
           placeholder="0"
-          onChange={(e) => isFinite(+e.target.value) ? onSetStartFrom(+e.target.value) : onSetStartFrom(startFrom)}
+          onChange={makeNumberInputChangeHandler(onSetStartFrom, startFrom)}
           margin="normal"
         />
         <TextField
           id="upTo"
-          label={`Up to (default - ${getTotalItems().toString()})`}
-          placeholder={getTotalItems().toString()}
+          label={`Up to (default - ${totalItems})`}
+          placeholder={totalItems.toString()}
           className={classes.textField}
           value={upTo || ''}
-          onChange={(e) => isFinite(+e.target.value)
-            ? onSetUpTo(+e.target.value > getTotalItems()
-              ? getTotalItems()
-              : +e.target.value)
-            : onSetUpTo(upTo)}
+          onChange={makeNumberInputChangeHandler(onSetUpTo, upTo)}
           margin="normal"
         />
       </FormGroup>

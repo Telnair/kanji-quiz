@@ -1,0 +1,61 @@
+import { makeStyles } from '@material-ui/core/styles';
+
+export const useStyles = makeStyles(theme => ({
+  container: {
+    display: 'flex',
+    flexWrap: 'nowrap',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  questionItem: {
+    width: 200,
+    height: 200,
+    marginBottom: theme.spacing(5),
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    background: "#eaeaea",
+    border: '4px solid #dadada',
+    textAlign: 'center',
+  },
+  suggestionsContainer: {
+    display: 'flex',
+    flexBasis: '100%',
+    flexWrap: 'nowrap',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  suggestionsItem: {
+    padding: theme.spacing(1),
+    marginLeft: theme.spacing(0.5),
+    marginBottom: theme.spacing(1),
+    marginRight: theme.spacing(0.5),
+    background: "#eaeaea",
+    border: '1px solid #dadada',
+    cursor: 'pointer',
+    width: 300,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    minHeight: 28,
+  },
+  title: {
+    fontSize: 24,
+    marginBottom: theme.spacing(5),
+  },
+  footerStats: {
+    display: 'flex',
+    justifyContent: 'center',
+    textAlign: 'center',
+    fontSize: 20,
+    alignItems: 'center',
+  },
+  incorrectAnswers: {
+    marginLeft: theme.spacing(0.5),
+    marginRight: theme.spacing(0.5),
+    fontWeight: 700,
+    color: '#f44336',
+  },
+}));
