@@ -63,7 +63,7 @@ const IncorrectAnswerInfoBlock: React.FC<IncorrectAnswerInfoBlockProps> = ({ qui
     <div className={classes.incorrectAnswerItemTextBlock}>
       {children}
       <span className={classes.incorrectAnswerItemAccentText}>
-        {quizType === QuizType.Kanji && !reversed ? source.kanji : source.meaning}
+        {quizType === QuizType.Kanji ? (reversed ? source.meaning : source.kanji) : (!reversed ? source.kanji : source.meaning)}
       </span>
     </div>
   );
