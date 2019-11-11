@@ -11,7 +11,7 @@ export const QuizGame: React.FC = () => {
   const [ startFrom, setStartFrom ] = useState<RangeValue>(null);
   const [ upTo, setUpTo ] = useState<RangeValue>(null);
   const [ autoSuggestions, setAutoSuggestions ] = useState(true);
-  const [ trackTime, setTrackTime ] = useState(false);
+  const [ trackTime, setTrackTime ] = useState(true);
 
   const defaultStartFrom = 0;
   const defaultUpTo = getTotalItems()
