@@ -939,6 +939,17 @@
     {"kanji":"救","meaning":" salvation (спасение)"},
     {"kanji":"竹","meaning":" bamboo"},
     {"kanji":"笑","meaning":" laugh"},
-    {"kanji":"笠","meaning":" bamboo hat"}
+    {"kanji":"笠","meaning":" bamboo hat"},
+    {"kanji":"笹","meaning":"bamboo grass"},
+    {"kanji":"筋","meaning":" muscle"},
+    {"kanji":"箱","meaning":" box"},
+    {"kanji":"筆","meaning":" writing brush"},
+    {"kanji":"筒","meaning":" cylinder"},
+    {"kanji":"等","meaning":" etc."},
+    {"kanji":"算","meaning":" calculate"},
+    {"kanji":"答","meaning":" solution"},
+    {"kanji":"策","meaning":" scheme"},
+    {"kanji":"簿","meaning":" register"},
+    {"kanji":"築","meaning":" fabricate"}
   ]
 }
