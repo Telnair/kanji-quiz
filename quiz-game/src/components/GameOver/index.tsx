@@ -27,7 +27,7 @@ export const GameOver: React.FC<GameOverProps> = ({ incorrectAnswers, quizType, 
     <div className={classes.container}>
       <header>
         <h1 className={classes.title}>All {totalQuizes} quizes are done</h1>
-        {timeTotal ? <p>Total time: {timeTotal}</p> : null}
+        {timeTotal ? <p style={{ textAlign: 'center' }}>Total time: {timeTotal}</p> : null}
       </header>
       {incorrectAnswersStats}
       {incorrectAnswers.length ? (
