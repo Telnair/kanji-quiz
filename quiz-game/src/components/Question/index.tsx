@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { QuizType, QuestionItem, QuizElement, IncorrectAnswer } from '../../utils/types';
 import { getQuestion } from '../../utils/utils';
 import { useStyles } from './style';
@@ -13,22 +13,16 @@ interface QuestionProps {
   onEndGame: () => void;
   trackTime: boolean;
   isRandom: boolean;
+  timeStarted: number | null;
 };
 
-export const Question: React.FC<QuestionProps> = ({ quizType, startFrom, upTo, autoSuggestions, onEndGame, trackTime, isRandom }) => {
+export const Question: React.FC<QuestionProps> = ({ quizType, startFrom, upTo, autoSuggestions, onEndGame, isRandom, timeStarted }) => {
   const incorrectAnswers = useRef<IncorrectAnswer[]>([]);
   const [ showSuggestions, setShowSuggestions ] = useState(autoSuggestions);
   const usedIds = useRef<string[]>([]);
   const [ question, setQuestion ] = useState<QuestionItem | null>(
     getQuestion({ quizType, startFrom, upTo, exclude: new Set(usedIds.current), isRandom })
   );
-  const timeStarted = useRef<number | null>(null);
-
-  useEffect(() => {
-    if (trackTime) {
-      timeStarted.current = Date.now();
-    }
-  });
 
   const classes = useStyles({});
 
@@ -58,7 +52,7 @@ export const Question: React.FC<QuestionProps> = ({ quizType, startFrom, upTo, a
       onEndGame={onEndGame}
       incorrectAnswersStats={incorrectAnswersStats}
       totalQuizes={totalQuizes}
-      timeStarted={timeStarted.current}
+      timeStarted={timeStarted}
     />
   );
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { QuizType, RangeValue } from '../../utils/types';
 import { Question } from '../Question';
 import { StartForm } from '../StartForm';
@@ -13,6 +13,16 @@ export const QuizGame: React.FC = () => {
   const [ autoSuggestions, setAutoSuggestions ] = useState(true);
   const [ trackTime, setTrackTime ] = useState(true);
   const [ randomOrder, setRandomOrder ] = useState(true);
+  const [ timeStarted, setTimeStarted ] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (trackTime && isGameStarted) {
+      setTimeStarted(Date.now());
+    }
+    else if (!trackTime) {
+      setTimeStarted(null);
+    }
+  }, [ isGameStarted, trackTime ]);
 
   const defaultStartFrom = 0;
   const defaultUpTo = getTotalItems()
@@ -26,6 +36,7 @@ export const QuizGame: React.FC = () => {
       onEndGame={() => setIsGameStarted(false)}
       trackTime={trackTime}
       isRandom={randomOrder}
+      timeStarted={timeStarted}
     />
   ) : (
     <StartForm

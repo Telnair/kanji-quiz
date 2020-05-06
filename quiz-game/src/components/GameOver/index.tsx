@@ -14,7 +14,7 @@ interface GameOverProps {
 }
 
 export const GameOver: React.FC<GameOverProps> = ({ incorrectAnswers, quizType, incorrectAnswersStats, onEndGame, totalQuizes, timeStarted }) => {
-  const classes = useStyles();
+  const classes = useStyles({});
 
   const timeEnded = Date.now();
   let timeTotal = null;
