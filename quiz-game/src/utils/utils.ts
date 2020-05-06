@@ -12,7 +12,7 @@ export const getQuestion = (settings: GetQuestionSettings): QuestionItem | null 
 
   if (!relevantKanji.length) return null;
 
-  const questionItem = getRandomItem(relevantKanji);
+  const questionItem = settings.isRandom ? getRandomItem(relevantKanji) : relevantKanji[0];
   const suggestions = new Array(SUGGESTIONS_TOTAL).fill(null).reduce((group: QuizElement[]) => {
     const itemsPull = kanjiRange.filter(k => !group.map(k => k.kanji).includes(k.kanji));
     const suggestion = getRandomItem(itemsPull);

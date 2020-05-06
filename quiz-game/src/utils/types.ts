@@ -18,6 +18,7 @@ export interface GetQuestionSettings {
   exclude: Set<string>;
   upTo: number;
   startFrom: number;
+  isRandom: boolean;
 }
 
 export type RangeValue = number | null;

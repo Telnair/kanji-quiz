@@ -12,28 +12,31 @@ interface QuestionProps {
   autoSuggestions: boolean;
   onEndGame: () => void;
   trackTime: boolean;
+  isRandom: boolean;
 };
 
-export const Question: React.FC<QuestionProps> = ({ quizType, startFrom, upTo, autoSuggestions, onEndGame, trackTime }) => {
+export const Question: React.FC<QuestionProps> = ({ quizType, startFrom, upTo, autoSuggestions, onEndGame, trackTime, isRandom }) => {
   const incorrectAnswers = useRef<IncorrectAnswer[]>([]);
   const [ showSuggestions, setShowSuggestions ] = useState(autoSuggestions);
   const usedIds = useRef<string[]>([]);
-  const [ question, setQuestion ] = useState<QuestionItem | null>(getQuestion({ quizType, startFrom, upTo, exclude: new Set(usedIds.current) }));
+  const [ question, setQuestion ] = useState<QuestionItem | null>(
+    getQuestion({ quizType, startFrom, upTo, exclude: new Set(usedIds.current), isRandom })
+  );
   const timeStarted = useRef<number | null>(null);
 
   useEffect(() => {
     if (trackTime) {
       timeStarted.current = Date.now();
     }
-  }, []);
+  });
 
-  const classes = useStyles();
+  const classes = useStyles({});
 
   const makeAnswerHandler = (item: QuizElement) => () => {
     const nextUsedIds = [ ...usedIds.current, questionItem.kanji ];
 
     usedIds.current = nextUsedIds;
-    setQuestion(getQuestion({ quizType, startFrom, upTo, exclude: new Set(nextUsedIds) }));
+    setQuestion(getQuestion({ quizType, startFrom, upTo, exclude: new Set(nextUsedIds), isRandom }));
 
     if (item.kanji !== questionItem.kanji) incorrectAnswers.current.push([ questionItem, item ]);
     if (!autoSuggestions) setShowSuggestions(false);

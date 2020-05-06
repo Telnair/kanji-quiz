@@ -24,6 +24,8 @@ interface StartFormProps {
   onStartGame: () => void;
   trackTime: boolean;
   onToggleTrackTime: () => void;
+  randomOrder: boolean;
+  onToggleRandomOrder: () => void;
 }
 
 export const StartForm: React.FC<StartFormProps> = ({
@@ -38,8 +40,10 @@ export const StartForm: React.FC<StartFormProps> = ({
   onStartGame,
   trackTime,
   onToggleTrackTime,
+  randomOrder,
+  onToggleRandomOrder,
 }) => {
-  const classes = useStyles();
+  const classes = useStyles({});
 
   const isRangeValid = startFrom && upTo ? Boolean(startFrom < upTo) : (startFrom ? startFrom < getTotalItems() : true);
 
@@ -112,6 +116,19 @@ export const StartForm: React.FC<StartFormProps> = ({
             />
           }
           label="Track time"
+        />
+      </FormGroup>
+      <FormGroup row className={classes.group}>
+        <FormControlLabel
+          control={
+            <Switch
+              checked={randomOrder}
+              onChange={onToggleRandomOrder}
+              value={!randomOrder}
+              color="primary"
+            />
+          }
+          label="Randomize"
         />
       </FormGroup>
       <Button

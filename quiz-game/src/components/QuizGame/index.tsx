@@ -12,6 +12,7 @@ export const QuizGame: React.FC = () => {
   const [ upTo, setUpTo ] = useState<RangeValue>(null);
   const [ autoSuggestions, setAutoSuggestions ] = useState(true);
   const [ trackTime, setTrackTime ] = useState(true);
+  const [ randomOrder, setRandomOrder ] = useState(true);
 
   const defaultStartFrom = 0;
   const defaultUpTo = getTotalItems()
@@ -24,6 +25,7 @@ export const QuizGame: React.FC = () => {
       autoSuggestions={autoSuggestions}
       onEndGame={() => setIsGameStarted(false)}
       trackTime={trackTime}
+      isRandom={randomOrder}
     />
   ) : (
     <StartForm
@@ -38,6 +40,8 @@ export const QuizGame: React.FC = () => {
       autoSuggestions={autoSuggestions}
       onToggleAutoSuggestions={() => setAutoSuggestions(prev => !prev)}
       onStartGame={() => setIsGameStarted(true)}
+      randomOrder={randomOrder}
+      onToggleRandomOrder={() => setRandomOrder(prev => !prev)}
     />
   );
 
